@@ -134,7 +134,7 @@ app.delete("/api/v1/books/:id", async (req, res) => {
     }
 });
 app.get('/',(req,res)=>{
-    res.status(200).json({name:"Ram gupta "})
+    res.status(200).json({name:"Ramu gupta "})
 })
 const PORT = process.env.PORT|| 1000;
 
