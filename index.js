@@ -51,8 +51,10 @@ app.get('/', (req, res) => res.json('hello ! Ramu Gupta'));
 
 async function withDB(opration, res) {
     try {
-        const client = await mongodb.MongoClient.connect('mongodb+srv://ramugupta808118:ramu808118@cluster0.9delh0r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true });
+        const client = await mongodb.MongoClient.connect('mongodb+srv://ramugupta808118:ramu808118@cluster0.9delh0r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
         const db = client.db('my-blog');
+        console.log(db);
+        
         opration(db);
         // client.close();
     } catch (error) {
