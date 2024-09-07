@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const {MongoClient} = require('mongodb');
-
+const cors=require("cors")
 // const articlesInfo={
 //     'learn-react':{
 //         upvotes:0,
@@ -20,7 +20,7 @@ require("dotenv").config()
 const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
-
+app.use(cors());
 
 app.get('/',(req,res)=>res.json('hello ! Ramu Gupta'));
 // app.get('/hello/:name',(req,res)=>res.send(`Hello ${req.params.name}`));
