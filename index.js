@@ -18,10 +18,11 @@ app.get('/', (req, res) => res.json('hello ! Ramu Gupta'));
 app.get('/api/articles/:name',async(req,res)=>{
     try{
         const articlesName=req.params.name;
-        const client=await MongoClient.connect(uri,{useNewUrlParser:true});
-        const db=client.db('TestCrud');
-        const articlesInfo=await db.collection('articles').findOne({name:articlesName});
-        res.json(articlesInfo);
+        const client=await mongodb.MongoClient.connect(uri)
+
+const db=client.db('TestCrud');
+const articlesInfo=await db.collection('articles').findOne()
+        return res.json(articlesInfo);
     }catch(error){
         res.status(500).json({message:'error:connecting to db',error});
     }
@@ -117,7 +118,7 @@ app.get('/api/articles/:name',async(req,res)=>{
 //     // }, res)
 //     res.status(200).json({ username, text })
 // })
-const serverless = () => {
+// const serverless = () => {
     app.listen(8000, () => console.log('Listening on port 8000'));
-}
-serverless();
+// }
+// serverless();
