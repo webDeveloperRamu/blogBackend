@@ -1,6 +1,6 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import {MongoClient} from 'mongodb';
+const express = require('express')
+const bodyParser = require('body-parser');
+const {MongoClient} = require('mongodb');
 
 // const articlesInfo={
 //     'learn-react':{
