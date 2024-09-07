@@ -118,7 +118,7 @@ const articlesInfo=await db.collection('articles').findOne()
 //     // }, res)
 //     res.status(200).json({ username, text })
 // })
-// const serverless = () => {
+const serverless = () => {
     app.listen(8000, () => console.log('Listening on port 8000'));
-// }
-// serverless();
+}
+serverless();
