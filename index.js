@@ -49,25 +49,38 @@ app.get('/', (req, res) => res.json('hello ! Ramu Gupta'));
 // }
 // })
 
-async function withDB(opration, res) {
+// const mongodb = require('mongodb'); // Ensure you have the mongodb package
+
+async function withDB(operation, res) {
+    const uri = 'mongodb+srv://ramugupta808118:ramu808118@cluster0.9delh0r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+
+    let client;
+
     try {
-        const client = await mongodb.MongoClient.connect('mongodb+srv://ramugupta808118:ramu808118@cluster0.9delh0r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
-        const db = client.db('my-blog');
-        console.log(db);
-        
-        opration(db);
-        // client.close();
+        client = await mongodb.MongoClient.connect(uri);
+        const db = client.db("TestCrud");
+        // const collections = await db.listCollections().toArray();
+        // console.log('Collections in database:', await db.collection("blog"));
+        // await operation(db); // Await the result of the operation function
+
+        return res.json({ message: 'Operation successful', data: await operation(db) });
     } catch (error) {
-        res.json({ message: 'error:connecting to db', error });
+        res.json({ message: 'Error connecting to db', error });
+    } finally {
+        if (client) {
+            client.close(); // Ensure the client is closed in the end
+        }
     }
 }
+
 
 //localhost:8000/api/articles/learn-node,
 app.get('/api/articles/:name', (req, res) => {
     withDB(async (db) => {
         const articlesName = req.params.name;
         const articlesInfo = await db.collection('articles').findOne({ name: articlesName });
-        return res.json(articlesInfo);
+        console.log({ message: 'Operation successful', articlesInfo })
+        return (articlesInfo)
     }, res);
 });
 
@@ -92,18 +105,19 @@ app.post('/api/articles/:name/add-comment', (req, res) => {
     const { username, text } = req.body;
     const articleName = req.params.name;
 
-    withDB(async (db) => {
-        const articlesInfo = await db.collection('articles').findOne({ name: articleName });
-        await db.collection('articles').updateOne({ name: articleName }, {
-            $set: {
-                comments: articlesInfo.comments.concat({ username, text }),
-            }
-        })
-        const updateArticleInfo = await db.collection('articles').findOne({ name: articleName })
-        res.status(200).json(updateArticleInfo);
-    }, res)
+    // withDB(async (db) => {
+    //     const articlesInfo = await db.collection('articles').findOne({ name: articleName });
+    //     await db.collection('articles').updateOne({ name: articleName }, {
+    //         $set: {
+    //             comments: articlesInfo.comments.concat({ username, text }),
+    //         }
+    //     })
+    //     const updateArticleInfo = await db.collection('articles').findOne({ name: articleName })
+    //     res.status(200).json(updateArticleInfo);
+    // }, res)
+    res.status(200).json({ username, text })
 })
-const serverless=()=>{
-app.listen(8000, () => console.log('Listening on port 8000'));
+const serverless = () => {
+    app.listen(8000, () => console.log('Listening on port 8000'));
 }
 serverless();
