@@ -61,13 +61,13 @@ const withDB=async (opration,res)=>{
 }
 
 //localhost:8000/api/articles/learn-node,
-// app.get('/api/articles/:name',(req,res)=>{
-//     withDB(async(db)=>{
-//         const articlesName=req.params.name;
-//         const articlesInfo=await db.collection('articles').findOne({name:articlesName});
-//        return res.json(articlesInfo);
-//     },res);
-// });
+app.get('/api/articles/:name',(req,res)=>{
+    withDB(async(db)=>{
+        const articlesName=req.params.name;
+        const articlesInfo=await db.collection('articles').findOne({name:articlesName});
+       return res.json(articlesInfo);
+    },res);
+});
 
 //localhost:8000/api/articles/:name/upvotes
 
