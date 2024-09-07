@@ -15,18 +15,49 @@ app.get('/', (req, res) => res.json('hello ! Ramu Gupta'));
 
 //localhost:8000/api/articles/learn-node,
 
-app.get('/api/articles/:name',async(req,res)=>{
-    try{
-        const articlesName=req.params.name;
-        const client=await mongodb.MongoClient.connect(uri)
+app.get('/api/articles/:name', async (req, res) => {
+    const articlesName = req.params.name;
 
-const db=client.db('TestCrud');
-const articlesInfo=await db.collection('articles').findOne()
-        return res.json(articlesInfo);
-    }catch(error){
-        res.status(500).json({message:'error:connecting to db',error});
+    let client;
+
+    try {
+        // Connect to MongoDB Atlas
+        client = await mongodb.MongoClient.connect(uri);
+
+        // Access the specific database
+        const db = client.db('TestCrud');
+
+        // Fetch the article information
+        const articlesInfo = await db.collection('articles').findOne();
+
+        // Check if article was found
+        if (articlesInfo) {
+            return res.json(articlesInfo);
+        } else {
+            return res.status(404).json({ message: 'Article not found' });
+        }
+    } catch (error) {
+        console.error('Error connecting to MongoDB Atlas:', error.message);
+        return res.status(500).json({ message: 'Error connecting to db', error: error.message });
+    } finally {
+        if (client) {
+            await client.close(); // Ensure the client is closed in the end
+        }
     }
-})
+});
+
+// app.get('/api/articles/:name',async(req,res)=>{
+//     try{
+//         const articlesName=req.params.name;
+//         const client=await mongodb.MongoClient.connect(uri)
+
+// const db=client.db('TestCrud');
+// const articlesInfo=await db.collection('articles').findOne()
+//         return res.json(articlesInfo);
+//     }catch(error){
+//         res.status(500).json({message:'error:connecting to db',error});
+//     }
+// })
 
 
 //localhost:8000/api/articles/:name/upvotes
