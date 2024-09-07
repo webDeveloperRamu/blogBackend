@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser');
-const {MongoClient} = require('mongodb');
+const mongodb = require('mongodb');
 const cors=require("cors")
 
 require("dotenv").config()
@@ -51,7 +51,7 @@ app.get('/',(req,res)=>res.json('hello ! Ramu Gupta'));
 
 const withDB=async (opration,res)=>{
     try{
-        const client=await MongoClient.connect('mongodb+srv://ramugupta808118:ramu808118@cluster0.9delh0r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',{useNewUrlParser:true});
+        const client=await mongodb.MongoClient.connect('mongodb+srv://ramugupta808118:ramu808118@cluster0.9delh0r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',{useNewUrlParser:true});
         const db=client.db('my-blog');
         opration(db);
         // client.close();
