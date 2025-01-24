@@ -6,7 +6,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 const connectDB = require("./connectMongo");
 
-connectDB();
+// connectDB();
 const Router = require("./routers")
 
 app.use("/api", Router)
